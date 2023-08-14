@@ -10,7 +10,7 @@ class BaseModel():
 	def __init__(self, *args, **kwargs):
 		'''init method'''
 		if kwargs:
-			for key in kwargs.items():
+			for key in kwargs:
 				if key == "__class__":
 					continue
 				
