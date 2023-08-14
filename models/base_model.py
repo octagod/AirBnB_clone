@@ -3,7 +3,6 @@
 import uuid
 from datetime import datetime
 
-
 class BaseModel():
 	'''Base Model Class'''
 
@@ -14,13 +13,13 @@ class BaseModel():
 				if key is "__class__":
 					continue
 				elif key is "created_at":
-					self.created_at = datetime.strptime(
+					self.__dict__["created_at"] = datetime.strptime(
 						kwargs[key], '%Y-%m-%dT%H:%M:%S.%f')
 				elif key is "updated_at":
-					self.updated_at = datetime.strptime(
+					self.__dict__["updated_at"] = datetime.strptime(
 						kwargs[key], '%Y-%m-%dT%H:%M:%S.%f')
 				else:
-					self.id = kwargs[key]
+					self.__dict__[key] = kwargs[key]
 		else:
 			self.id = str(uuid.uuid4())
 			self.created_at = datetime.now()
