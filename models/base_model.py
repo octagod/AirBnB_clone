@@ -3,21 +3,23 @@
 import uuid
 from datetime import datetime
 
+
 class BaseModel():
 	'''Base Model Class'''
 
 	def __init__(self, *args, **kwargs):
 		'''init method'''
-		if kwargs != {}:
-			for key in kwargs:
-				if key is "__class__":
+		if kwargs:
+			for key in kwargs.items():
+				if key == "__class__":
 					continue
-				elif key is "created_at":
-					self.__dict__["created_at"] = datetime.strptime(
-						kwargs[key], '%Y-%m-%dT%H:%M:%S.%f')
-				elif key is "updated_at":
-					self.__dict__["updated_at"] = datetime.strptime(
-						kwargs[key], '%Y-%m-%dT%H:%M:%S.%f')
+				
+				if key == "created_at":
+					self.created_at = datetime.strptime(
+						kwargs["created_at"], '%Y-%m-%dT%H:%M:%S.%f')
+				elif key == "updated_at":
+					self.updated_at = datetime.strptime(
+						kwargs["updated_at"], '%Y-%m-%dT%H:%M:%S.%f')
 				else:
 					self.__dict__[key] = kwargs[key]
 		else:
