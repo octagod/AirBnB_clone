@@ -37,7 +37,7 @@ class BaseModel():
 
 	def save(self):
 		""" Save method """
-		
+
 		self.updated_at = datetime.now()
 		storage.save()
 
