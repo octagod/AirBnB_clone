@@ -12,6 +12,19 @@ from models.review import Review
 from models import storage
 
 
+def reg_split(line):
+    '''Parse line'''
+    if "(" in line and ")" in line:
+        x = line.split(".")[1].split("(")[0]
+        if f".{x}(" in line:
+            line = line.replace(f".{x}(", " ").replace(")", "")
+            if "," in line:
+                line = line.replace(",", "")
+            if "{" in line:
+                line = line.replace("{", "").replace("}", "").replace(":", "")
+    return line.split(" ")
+
+
 class HBNBCommand(cmd.Cmd):
     '''HBNB Command Class'''
 
@@ -37,7 +50,6 @@ class HBNBCommand(cmd.Cmd):
 
     def emptyline(self):
         '''Customised empty line command'''
-        print('')
 
     def do_create(self, line):
         """Usage: create <class>
@@ -58,12 +70,13 @@ class HBNBCommand(cmd.Cmd):
         """Usage: show <class> <id> or <class>.show(<id>)
         Display the string representation of a class instance of a given id.
         """
-        commands = line.split(" ")
+        commands = reg_split(line)
+        print(commands)
         dbobj = storage.all()
 
         if len(line) < 1:
             print('** class name missing **')
-        elif commands[0] not in HBNBCommand.__classes:
+        elif commands[0] in HBNBCommand.__classes:
             if len(commands) < 2:
                 print("** instance id missing **")
             elif f"{commands[0]}.{commands[1]}" not in dbobj:
@@ -76,7 +89,7 @@ class HBNBCommand(cmd.Cmd):
     def do_destroy(self, line):
         """Usage: destroy <class> <id> or <class>.destroy(<id>)
         Delete a class instance of a given id."""
-        commands = line.split(" ")
+        commands = reg_split(line)
         dbobj = storage.all()
 
         if len(line) == 0:
@@ -95,7 +108,7 @@ class HBNBCommand(cmd.Cmd):
         """Usage: all or all <class> or <class>.all()
         Display string representations of all instances of a given class.
         If no class is specified, displays all instantiated objects."""
-        commands = line.split(" ")
+        commands = reg_split(line)
         if len(commands) > 0 and commands[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
         else:
@@ -113,7 +126,7 @@ class HBNBCommand(cmd.Cmd):
        <class>.update(<id>, <dictionary>)
         Update a class instance of a given id by adding or updating
         a given attribute key/value pair."""
-        commands = line.split(" ")
+        commands = reg_split(line)
         dbobj = storage.all()
 
         if len(line) == 0:
