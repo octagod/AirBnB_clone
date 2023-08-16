@@ -109,14 +109,17 @@ class HBNBCommand(cmd.Cmd):
         Display string representations of all instances of a given class.
         If no class is specified, displays all instantiated objects."""
         commands = reg_split(line)
-        if len(commands) > 0 and commands[0] not in HBNBCommand.__classes:
+        if len(commands) > 0 and commands[0] == '':
+            dbarr = []
+            for obj in storage.all().values():
+                dbarr.append(obj.__str__())
+            print(dbarr)
+        elif len(commands) > 0 and commands[0] not in HBNBCommand.__classes:
             print("** class doesn't exist **")
         else:
             dbarr = []
             for obj in storage.all().values():
                 if len(commands) > 0 and commands[0] == obj.__class__.__name__:
-                    dbarr.append(obj.__str__())
-                elif len(line) == 0:
                     dbarr.append(obj.__str__())
             print(dbarr)
 

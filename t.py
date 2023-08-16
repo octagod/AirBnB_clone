@@ -27,6 +27,7 @@ def reg_split(line):
 # if ".show(" in line:
 #     line = line.replace(".show(", " ")
 #     line = line.replace(")", "")
+print(reg_split(""))
 print(reg_split("Classname id"))
 print(reg_split("Classname.show(id)"))
 print(reg_split("BaseModel.show(123gsh-y3utb3-yu2ebka0-9374)"))
