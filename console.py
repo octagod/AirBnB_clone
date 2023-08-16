@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-'''Entry point file'''
+"""Entry point file"""
 
 import cmd
 from models.base_model import BaseModel
@@ -14,7 +14,7 @@ import re
 
 
 def reg_split(line):
-    '''Parse line'''
+    """Parse line"""
     if "(" in line and ")" in line:
         x = line.split(".")[1].split("(")[0]
         if f".{x}(" in line:
@@ -27,7 +27,7 @@ def reg_split(line):
 
 
 class HBNBCommand(cmd.Cmd):
-    '''HBNB Command Class'''
+    """HBNB Command Class"""
 
     __classes = {
         "BaseModel",
@@ -42,15 +42,15 @@ class HBNBCommand(cmd.Cmd):
     prompt = '(hbnh) '
 
     def do_quit(self, line):
-        '''Quit command to exit the program'''
+        """Quit command to exit the program"""
         return True
 
     def do_EOF(self, line):
-        '''EOF command to exit the program'''
+        """EOF command to exit the program"""
         return True
 
     def emptyline(self):
-        '''Customised empty line command'''
+        """Customised empty line command"""
 
     def default(self, line):
         """Default behaviour for cmd module when user input is invalid"""
