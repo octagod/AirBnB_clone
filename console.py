@@ -78,9 +78,8 @@ class HBNBCommand(cmd.Cmd):
         if len(line) < 1:
             print('** class name missing **')
         elif commands[0] in HBNBCommand.__classes:
-            newinstance = BaseModel()
-            newinstance.save()
-            print(newinstance.id)
+            print(eval(commands[0])().id)
+            storage.save()
         else:
             print("** class doesn't exist **")
 
