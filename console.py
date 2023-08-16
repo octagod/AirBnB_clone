@@ -10,6 +10,7 @@ from models.place import Place
 from models.amenity import Amenity
 from models.review import Review
 from models import storage
+import re
 
 
 def reg_split(line):
@@ -51,6 +52,29 @@ class HBNBCommand(cmd.Cmd):
     def emptyline(self):
         '''Customised empty line command'''
 
+    def default(self, line):
+        """Default behaviour for cmd module when user input is invalid"""
+        commandsdict = {
+            "all": self.do_all,
+            "show": self.do_show,
+            "destroy": self.do_destroy,
+            "count": self.do_count,
+            "update": self.do_update
+        }
+
+        match = re.search(r"\.", line)
+        if match is not None:
+            command = [line[:match.span()[0]], line[match.span()[1]:]]
+            match = re.search(r"\((.*?)\)", line)
+            if match is not None:
+                command2 = [command[1][:match.span()[0]], match.group()[1:-1]]
+                print(command2)
+                if command2[0] in commandsdict:
+                    call = f"{command[0]} {command2[1]}"
+                    return commandsdict[command2[0]](call)
+        print(f"*** Syntax Error {line}")
+        return False
+
     def do_create(self, line):
         """Usage: create <class>
         Create a new class instance and print its id.
@@ -65,6 +89,11 @@ class HBNBCommand(cmd.Cmd):
             print(newinstance.id)
         else:
             print("** class doesn't exist **")
+
+    def do_count(self, line):
+        """Usage: count <class> or <class>.count()
+        Gets the number of instances of a given class.
+        """
 
     def do_show(self, line):
         """Usage: show <class> <id> or <class>.show(<id>)
