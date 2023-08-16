@@ -62,16 +62,10 @@ class HBNBCommand(cmd.Cmd):
             "update": self.do_update
         }
 
-        match = re.search(r"\.", line)
-        if match is not None:
-            command = [line[:match.span()[0]], line[match.span()[1]:]]
-            match = re.search(r"\((.*?)\)", line)
-            if match is not None:
-                command2 = [command[1][:match.span()[0]], match.group()[1:-1]]
-                print(command2)
-                if command2[0] in commandsdict:
-                    call = f"{command[0]} {command2[1]}"
-                    return commandsdict[command2[0]](call)
+        if "(" in line and ")" in line and "." in line:
+            command = line.split(".")[1].split("(")[0]
+            if (command in commandsdict):
+                return commandsdict[command](" ".join(reg_split(line)))
         print(f"*** Syntax Error {line}")
         return False
 
