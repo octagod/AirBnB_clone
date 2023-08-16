@@ -94,6 +94,12 @@ class HBNBCommand(cmd.Cmd):
         """Usage: count <class> or <class>.count()
         Gets the number of instances of a given class.
         """
+        commands = reg_split(line)
+        count = 0
+        for obj in storage.all().values():
+            if commands[0] == obj.__class__.__name__:
+                count += 1
+        print(count)
 
     def do_show(self, line):
         """Usage: show <class> <id> or <class>.show(<id>)
